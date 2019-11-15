@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">NoteApp</string>
+    <string name="bt_analyze">分析する</string>
+    <string name="bt_recode">記録を見る</string>
+    <string name="bt_tackle">取り組みたいこと</string>
+    <string name="bt_remind">思い出に残したいこと</string>
+    <string name="register">登録</string>
+    <string name="login">ログイン</string>
+    <string name="username">ユーザー名</string>
+    <string name="email">E-mail</string>
+    <string name="password">パスワード</string>
+    <string name="already_have_an_account">すでにアカウントを持っている方はこちら</string>
+    <string name="select_photo">画像を選択</string>
+    <string name="create_account">アカウント作成</string>
+</resources>
