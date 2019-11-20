@@ -16,7 +16,7 @@ class AnalyzeActivity : AppCompatActivity() {
         supportActionBar?.title = "AnalyzeActivity"
 
         bt_tackle.setOnClickListener {
-            val intent = Intent(this, DataCreateActivity::class.java)
+            val intent = Intent(this, QuestionActivity::class.java)
             startActivity(intent)
         }
         bt_remind.setOnClickListener {

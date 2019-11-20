@@ -9,11 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".BaseActivity"></activity>
+        <activity android:name=".ResultActivity"></activity>
+        <activity android:name=".AnswerActivity" />
+        <activity android:name=".QuestionActivity" />
         <activity android:name=".EmailPasswordActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".DataCreateActivity" />
         <activity android:name=".RecodeListActivity" />
         <activity android:name=".AnalyzeActivity" />
         <activity android:name=".MainActivity">
