@@ -12,6 +12,10 @@
     <string name="already_have_an_account">すでにアカウントを持っている方はこちら</string>
     <string name="select_photo">画像を選択</string>
     <string name="create_account">アカウント作成</string>
-    <string name="what_do_you_wanna_do">何をやりたいの？</string>
+    <string-array name="questions">
+        <item>何をやりたいの？</item>
+        <item>どうしてやりたいの？</item>
+        <item>それはなんで？</item>
+    </string-array>
     <string name="answer">答える</string>
 </resources>
