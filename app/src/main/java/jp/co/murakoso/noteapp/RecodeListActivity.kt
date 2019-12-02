@@ -13,12 +13,4 @@ class RecodeListActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "RecodeListActivity"
     }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId){
-            android.R.id.home -> finish()
-            else -> return super.onOptionsItemSelected(item)
-        }
-        return true
-    }
 }
