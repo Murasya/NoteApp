@@ -9,11 +9,11 @@ import kotlinx.android.synthetic.main.activity_question.*
 class QuestionActivity : AppCompatActivity() {
     companion object {
         var answers: MutableList<String> = mutableListOf()
+        var i = 0
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_question)
-        var i = 0
         val questions: Array<String> = resources.getStringArray(R.array.questions)
         question_text.text = questions.elementAtOrElse(i++){questions[4]}
 

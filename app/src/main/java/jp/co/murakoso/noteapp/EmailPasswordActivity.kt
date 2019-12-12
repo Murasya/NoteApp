@@ -1,5 +1,6 @@
 package jp.co.murakoso.noteapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
@@ -67,12 +68,16 @@ class EmailPasswordActivity : AppCompatActivity(){
             Log.w(TAG, "FormInvalid.")
             return
         }
-
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, "signInWithEmail:success")
-
+                    Toast.makeText(
+                        baseContext, "Sign in Success.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
                 } else {
                     Log.w(TAG, "signInWithEmail:failure", task.exception)
                     Toast.makeText(
