@@ -11,6 +11,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.activity_result.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 class ResultActivity : AppCompatActivity() {
     companion object {
@@ -81,13 +82,18 @@ class ResultActivity : AppCompatActivity() {
         }
 
         // タグ
-        var tagText = ""
+        var tags: ArrayList<String> = ArrayList()
         // 元々あったタグをDBから取得して表示
         db.collection("questionAndAnswer").document(uuidString)
             .get()
             .addOnSuccessListener { document ->
-                tagText = document.data?.get("tag").toString()
-                getTagView(tagText)
+                val tagAny = document.data?.get("tag")
+                if(tagAny is ArrayList<*>){
+                    Log.d(TAG, tagAny.joinToString(separator = " "))
+                    getTagView(tagAny.joinToString(separator = " "))
+                    val temp = tagAny.map{ it.toString()}
+                    tags.addAll(temp)
+                }
             }
             .addOnFailureListener {
                 Log.d(TAG, "No data")
@@ -96,9 +102,10 @@ class ResultActivity : AppCompatActivity() {
         adapt_button.setOnClickListener {
             val text = tag_editText.text.toString()
             tag_editText.setText("")
-            getTagView(text)
+            val tagNew = getTagView(text)
+            tags.addAll(tagNew)
             db.collection("questionAndAnswer").document(uuidString)
-                .set(mapOf("tag" to tagText + text), SetOptions.merge())
+                .set(mapOf("tag" to tags), SetOptions.merge())
                 .addOnSuccessListener { Log.d(TAG, "Document snapshot successfully written!") }
                 .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e)}
         }
@@ -108,8 +115,9 @@ class ResultActivity : AppCompatActivity() {
             startActivity(intent2)
         }
     }
-    private fun getTagView(text: String){
-        val tags = text.split("#")
+    private fun getTagView(text: String): List<String>{
+        //textを#で分けて，空白のタグを排除，無駄な空白を消して，先頭に#をつける
+        val tags = text.split("#").filterNot { it == "" }.map {it.trim()}.map{"#$it"}
         for(tag in tags){
             if(tag == "") continue
             val tagView = getTextView(tag)
@@ -117,6 +125,7 @@ class ResultActivity : AppCompatActivity() {
             tagView.setPadding(0, 0, 10, 0)
             tagLayout.addView(tagView)
         }
+        return tags
     }
     private fun getTextView(text: String): TextView {
         val textView = TextView(this)

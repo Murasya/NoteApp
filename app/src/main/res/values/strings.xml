@@ -25,4 +25,6 @@
     <string name="finish_question">質問を終える</string>
     <string name="add_tag">タグを追加</string>
     <string name="adapt">適用</string>
+    <string name="search_as_tag">タグで検索</string>
+    <string name="search">検索</string>
 </resources>
