@@ -4,16 +4,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
-import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.marginTop
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.activity_result.*
+import java.util.*
 
 class ResultActivity : AppCompatActivity() {
     companion object {
@@ -33,12 +30,14 @@ class ResultActivity : AppCompatActivity() {
         val answers = QuestionActivity.answers
         val data = RecodeListActivity.dbData
         val dbElement = Array(answers.size) {Pair("question$it","answer$it")}
+        var uuidString = UUID.randomUUID().toString()
 
         // QuestionActivityから来た場合
         if (!answers.isNullOrEmpty()) {
             user?.let {
                 val uid = user.uid
                 val questionAndAnswer = mutableMapOf(
+                    "id" to uuidString,
                     "uid" to uid
                 )
                 // 質問と答えをマップで保存
@@ -47,10 +46,10 @@ class ResultActivity : AppCompatActivity() {
                     questionAndAnswer[qa.second] = answers[index]
                 }
                 // dbへ挿入
-                db.collection("questionAndAnswer")
-                    .add(questionAndAnswer)
-                    .addOnSuccessListener { documentReference ->
-                        Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+                db.collection("questionAndAnswer").document(uuidString)
+                    .set(questionAndAnswer)
+                    .addOnSuccessListener {
+                        Log.d(TAG, "DocumentSnapshot added.")
                     }
                     .addOnFailureListener { e ->
                         Log.w(TAG, "Error adding document", e)
@@ -68,6 +67,7 @@ class ResultActivity : AppCompatActivity() {
             // RecodeListActivity から来た場合
         } else if (!data.isNullOrEmpty()){
             Log.d(TAG, data.toString())
+            uuidString = data["id"].toString()
             val questions2 = data.filterKeys { it.contains("question") }.toSortedMap().toList()
             val answers2 = data.filterKeys { it.contains("answer") }.toSortedMap().toList()
             for((index, value) in questions2.withIndex()) {
@@ -80,9 +80,42 @@ class ResultActivity : AppCompatActivity() {
             }
         }
 
+        // タグ
+        var tagText = ""
+        // 元々あったタグをDBから取得して表示
+        db.collection("questionAndAnswer").document(uuidString)
+            .get()
+            .addOnSuccessListener { document ->
+                tagText = document.data?.get("tag").toString()
+                getTagView(tagText)
+            }
+            .addOnFailureListener {
+                Log.d(TAG, "No data")
+            }
+        // 新しくタグを追加
+        adapt_button.setOnClickListener {
+            val text = tag_editText.text.toString()
+            tag_editText.setText("")
+            getTagView(text)
+            db.collection("questionAndAnswer").document(uuidString)
+                .set(mapOf("tag" to tagText + text), SetOptions.merge())
+                .addOnSuccessListener { Log.d(TAG, "Document snapshot successfully written!") }
+                .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e)}
+        }
+
         backTitle_button.setOnClickListener {
             val intent2 = Intent(this, MainActivity::class.java)
             startActivity(intent2)
+        }
+    }
+    private fun getTagView(text: String){
+        val tags = text.split("#")
+        for(tag in tags){
+            if(tag == "") continue
+            val tagView = getTextView(tag)
+            tagView.textSize = 16f
+            tagView.setPadding(0, 0, 10, 0)
+            tagLayout.addView(tagView)
         }
     }
     private fun getTextView(text: String): TextView {

@@ -23,4 +23,6 @@
     <string name="answer">答える</string>
     <string name="backTitle">タイトルに戻る</string>
     <string name="finish_question">質問を終える</string>
+    <string name="add_tag">タグを追加</string>
+    <string name="adapt">適用</string>
 </resources>

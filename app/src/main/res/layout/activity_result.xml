@@ -7,33 +7,62 @@
     tools:context=".ResultActivity">
 
 
-    <LinearLayout
-        android:layout_width="0dp"
+    <HorizontalScrollView
+        android:id="@+id/tagView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center|top"
-        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+        app:layout_constraintTop_toBottomOf="@id/tag_editText">
 
-        <Button
-            android:id="@+id/backTitle_button"
+        <LinearLayout
+            android:id="@+id/tagLayout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/backTitle" />
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="3dp" />
+    </HorizontalScrollView>
+
+    <EditText
+        android:id="@+id/tag_editText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/add_tag"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        app:layout_constraintEnd_toStartOf="@+id/adapt_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/adapt_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.3"
+        android:text="@string/adapt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+        app:layout_constraintTop_toBottomOf="@id/tagView"></LinearLayout>
+
+    <Button
+        android:id="@+id/backTitle_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/backTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
